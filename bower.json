@@ -1,0 +1,15 @@
+{
+  "name": "mini-store.js",
+  "version": "0.0.1",
+  "dependencies": {
+    "stringspace.js": "0.2.0"
+  },
+  "ignore": [
+    "**/.*",
+    "Gruntfile.js",
+    "src",
+    "docs",
+    "test",
+    "build"
+  ]
+}
