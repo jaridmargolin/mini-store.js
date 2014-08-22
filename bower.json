@@ -1,6 +1,6 @@
 {
   "name": "mini-store.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
     "stringspace.js": "0.2.0"
   },

@@ -87,14 +87,13 @@ MiniStore.prototype.remove = function (key) {
 
 
 /**
- * 
+ * Reset data to original data specified at the time of
+ * instantiation.
  *
  * @example
- * 
+ * store.reset();
  *
  * @public
- *
- * @param
  */
 MiniStore.prototype.reset = function () {
   this.data = _.clone(this.original);
