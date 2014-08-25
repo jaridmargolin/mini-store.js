@@ -56,14 +56,26 @@ describe('mini-store.js', function () {
       });
     });
 
-    it('Should add obj.', function () {
+    it('Should add obj deep.', function () {
       this.store.add({
-        'nested:prop': 'value',
+        'nested': { 'prop': 'value' },
         'attr': 'value'
       });
 
       assert.deepEqual(this.store.data, {
         'nested': { 'key': 'value', 'prop': 'value' },
+        'attr': 'value'
+      });
+    });
+
+    it('Should add obj flat.', function () {
+      this.store.add({
+        'nested': { 'prop': 'value' },
+        'attr': 'value'
+      }, true);
+
+      assert.deepEqual(this.store.data, {
+        'nested': { 'prop': 'value' },
         'attr': 'value'
       });
     });

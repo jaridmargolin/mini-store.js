@@ -30,7 +30,7 @@ define([
  *   will be converted to an object.
  */
 var MiniStore = function (defaults) {
-  this.original = _.extend({}, defaults);
+  this.original = _.mix({}, defaults);
 
   // initialize by calling reset
   this.reset();
@@ -53,15 +53,18 @@ var MiniStore = function (defaults) {
  * If an array of namespace keys is passed it will be converted
  * to an object.
  */
-MiniStore.prototype.add = function (key, value) {
-
-  // If a key and value
-  if (value) {
-    _.set(this.data, key, value);
+MiniStore.prototype.add = function (key, value, flat) {
 
   // Mixin with current data
+  if (_.isObject(key)) {
+    // Key actually is an object of key value pairs
+    // and value is the flat flag (by default mix is deep).
+    _.mix(this.data, key, value);
+
+  // Is a key and value
   } else {
-    _.extend(this.data, key);
+    _.set(this.data, key, value);
+    
   }
 
   // Allow chaining
@@ -96,7 +99,7 @@ MiniStore.prototype.remove = function (key) {
  * @public
  */
 MiniStore.prototype.reset = function () {
-  this.data = _.clone(this.original);
+  this.data = _.jsonClone(this.original);
 };
 
 

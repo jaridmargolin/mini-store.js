@@ -1,8 +1,9 @@
 {
   "name": "mini-store.js",
-  "version": "0.0.2",
+  "version": "0.2.0",
   "dependencies": {
-    "stringspace.js": "0.2.0"
+    "assist.js": "~0.2.0",
+    "stringspace.js": "0.2.1"
   },
   "ignore": [
     "**/.*",

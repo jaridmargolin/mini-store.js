@@ -15,42 +15,39 @@
 }(this, function () {
 
 /*!
- * stringspace.js
+ * isObject.js
  * 
  * Copyright (c) 2014
  */
-var stringspaceUtils, stringspaceStringspace, utils, miniStore;
-stringspaceUtils = function () {
+var assistIsObject, assistJsonClone, assistIsArray, assistDeepMerge, stringspaceUtils, stringspaceStringspace, utils, miniStore;
+assistIsObject = function (value) {
+  return value === Object(value);
+};
+/*!
+ * jsonClone.js
+ * 
+ * Copyright (c) 2014
+ */
+assistJsonClone = function (obj) {
+  return JSON.parse(JSON.stringify(obj));
+};
+/*!
+ * isArray.js
+ * 
+ * Copyright (c) 2014
+ */
+assistIsArray = function (value) {
+  return Object.prototype.toString.call(value) === '[object Array]';
+};
+/*!
+ * deepMerge.js
+ * 
+ * Copyright (c) 2014
+ */
+assistDeepMerge = function (isArray, isObject) {
   /* -----------------------------------------------------------------------------
-   * utils
+   * deepMerge
    * ---------------------------------------------------------------------------*/
-  var _ = {};
-  /**
-   * Determine if a given value is an Object.
-   *
-   * @example
-   * var isObj = isObject(obj);
-   *
-   * @public
-   *
-   * @param {*} value - Value to test.
-   */
-  _.isObject = function (value) {
-    return typeof value === 'object';
-  };
-  /**
-   * Determine if a given value is an Array.
-   *
-   * @example
-   * var isArr = isArray(array);
-   *
-   * @public
-   *
-   * @param {*} value - Value to test.
-   */
-  _.isArray = function (value) {
-    return Object.prototype.toString.call(value) === '[object Array]';
-  };
   /**
    * Deep merge 2 objects.
    *
@@ -62,20 +59,20 @@ stringspaceUtils = function () {
    * @param {object} dest - Object to merge properties into.
    * @param {object} obj - Object to merge properties from.
    */
-  _.deep = function (dest, obj) {
+  var deepMerge = function (dest, obj) {
     for (var k in obj) {
       var destVal = dest[k] || {};
       var objVal = obj[k];
-      var isObj = _.isObject(objVal);
-      var isArr = _.isArray(objVal);
+      var isObj = isObject(objVal);
+      var isArr = isArray(objVal);
       if (isObj || isArr) {
-        if (isObj && !_.isObject(destVal)) {
+        if (isObj && !isObject(destVal)) {
           dest[k] = {};
         }
-        if (isArr && !_.isArray(destVal)) {
+        if (isArr && !isArray(destVal)) {
           dest[k] = [];
         }
-        dest[k] = _.deep(destVal, objVal);
+        dest[k] = deepMerge(destVal, objVal);
       } else {
         dest[k] = objVal;
       }
@@ -83,10 +80,25 @@ stringspaceUtils = function () {
     return dest;
   };
   /* -----------------------------------------------------------------------------
-   * export
+   * deepMerge
    * ---------------------------------------------------------------------------*/
-  return _;
-}();
+  return deepMerge;
+}(assistIsArray, assistIsObject);
+/*!
+ * utils.js
+ * 
+ * Copyright (c) 2014
+ */
+stringspaceUtils = function (isArray, isObject, deepMerge) {
+  /* -----------------------------------------------------------------------------
+   * utils
+   * ---------------------------------------------------------------------------*/
+  return {
+    isObject: isObject,
+    isArray: isArray,
+    deepMerge: deepMerge
+  };
+}(assistIsArray, assistIsObject, assistDeepMerge);
 /*!
  * stringspace.js
  * 
@@ -154,7 +166,7 @@ stringspaceStringspace = function (_) {
     this._loop(obj, key, {
       last: function (obj, parts, i) {
         var curVal = obj[parts[i]];
-        return typeof curVal !== 'object' || !deep ? obj[parts[i]] = val : obj[parts[i]] = _.deep(curVal, val);
+        return typeof curVal !== 'object' || !deep ? obj[parts[i]] = val : obj[parts[i]] = _.deepMerge(curVal, val);
       },
       missing: function (obj, parts, i) {
         obj[parts[i]] = {};
@@ -221,7 +233,7 @@ stringspaceStringspace = function (_) {
  * 
  * Copyright (c) 2014
  */
-utils = function (Stringspace) {
+utils = function (isObject, jsonClone, Stringspace) {
   /* -----------------------------------------------------------------------------
    * scope
    * ---------------------------------------------------------------------------*/
@@ -229,90 +241,82 @@ utils = function (Stringspace) {
   /* -----------------------------------------------------------------------------
    * utils
    * ---------------------------------------------------------------------------*/
-  return {
-    /**
-     * Clone object containing variables only. Will not work with
-     * functions or undefined values.
-     *
-     * @example
-     * cloned = clone(obj);
-     *
-     * @public
-     *
-     * @param {object} obj - Object to clone.
-     */
-    clone: function (obj) {
-      return JSON.parse(JSON.stringify(obj));
-    },
-    /**
-     * Loop over object keys and set on obj.
-     *
-     * @example
-     * extend(dest, {
-     *   'nested:key': 'value',
-     *   'notnested': 'value'
-     * });
-     *
-     * @public
-     *
-     * @param {object} dest - Object to add properties to.
-     * @param {object} obj - Properties to add to dest object.
-     */
-    extend: function (dest, obj) {
-      for (var key in obj) {
-        stringspace.set(dest, key, obj[key], true);
-      }
-      return dest;
-    },
-    /**
-     * Proxy stringspace.get().
-     *
-     * @example
-     * var value = get(obj, 'nested:key');
-     *
-     * @public
-     *
-     * @param {object} dest - Object to retrieve properties from.
-     * @param {string} key - Name representing key to retrieve.
-     */
-    get: function (obj, key) {
-      return stringspace.get(obj, key);
-    },
-    /**
-     * Proxy stringspace.set().
-     *
-     * @example
-     * set(obj, 'nested:key', 'value');
-     *
-     * @public
-     *
-     * @param {object} obj - The object to add data to.
-     * @param {string} key - Formatted string representing a key in
-     *   the object.
-     * @param {*} val - Value of the specified key.
-     * @param {boolean} deep - Indicated if conflicts should be reserved
-     *   with a deep merge or an overwrite.
-     * 
-     */
-    set: function (obj, key, value, deep) {
-      return stringspace.set(obj, key, value, deep);
-    },
-    /**
-     * Proxy stringspace.remove().
-     *
-     * @example
-     * remove('nested');
-     *
-     * @public
-     *
-     * @param {object} obj - The object to remove value from.
-     * @param {string} key - String representing the key to remove.
-     */
-    remove: function (obj, key) {
-      return stringspace.remove(obj, key);
+  var _ = {
+      isObject: isObject,
+      jsonClone: jsonClone
+    };
+  /**
+   * Loop over object keys and set on obj.
+   *
+   * @example
+   * extend(dest, {
+   *   'nested:key': 'value',
+   *   'notnested': 'value'
+   * });
+   *
+   * @public
+   *
+   * @param {object} dest - Object to add properties to.
+   * @param {object} obj - Properties to add to dest object.
+   */
+  _.mix = function (dest, obj, flat) {
+    for (var key in obj) {
+      stringspace.set(dest, key, obj[key], !flat);
     }
+    return dest;
   };
-}(stringspaceStringspace);
+  /**
+   * Proxy stringspace.get().
+   *
+   * @example
+   * var value = get(obj, 'nested:key');
+   *
+   * @public
+   *
+   * @param {object} dest - Object to retrieve properties from.
+   * @param {string} key - Name representing key to retrieve.
+   */
+  _.get = function (obj, key) {
+    return stringspace.get(obj, key);
+  };
+  /**
+   * Proxy stringspace.set().
+   *
+   * @example
+   * set(obj, 'nested:key', 'value');
+   *
+   * @public
+   *
+   * @param {object} obj - The object to add data to.
+   * @param {string} key - Formatted string representing a key in
+   *   the object.
+   * @param {*} val - Value of the specified key.
+   * @param {boolean} deep - Indicated if conflicts should be reserved
+   *   with a deep merge or an overwrite.
+   * 
+   */
+  _.set = function (obj, key, value, deep) {
+    return stringspace.set(obj, key, value, deep);
+  };
+  /**
+   * Proxy stringspace.remove().
+   *
+   * @example
+   * remove('nested');
+   *
+   * @public
+   *
+   * @param {object} obj - The object to remove value from.
+   * @param {string} key - String representing the key to remove.
+   */
+  _.remove = function (obj, key) {
+    return stringspace.remove(obj, key);
+  };
+  /* -----------------------------------------------------------------------------
+   * export
+   * ---------------------------------------------------------------------------*/
+  return _;
+}(assistIsObject, assistJsonClone, stringspaceStringspace);
 /*!
  * mini-store.js
  * 
@@ -338,7 +342,7 @@ miniStore = function (_) {
    *   will be converted to an object.
    */
   var MiniStore = function (defaults) {
-    this.original = _.extend({}, defaults);
+    this.original = _.mix({}, defaults);
     // initialize by calling reset
     this.reset();
   };
@@ -358,12 +362,14 @@ miniStore = function (_) {
    * If an array of namespace keys is passed it will be converted
    * to an object.
    */
-  MiniStore.prototype.add = function (key, value) {
-    // If a key and value
-    if (value) {
-      _.set(this.data, key, value);
+  MiniStore.prototype.add = function (key, value, flat) {
+    // Mixin with current data
+    if (_.isObject(key)) {
+      // Key actually is an object of key value pairs
+      // and value is the flat flag (by default mix is deep).
+      _.mix(this.data, key, value);
     } else {
-      _.extend(this.data, key);
+      _.set(this.data, key, value);
     }
     // Allow chaining
     return this;
@@ -393,7 +399,7 @@ miniStore = function (_) {
    * @public
    */
   MiniStore.prototype.reset = function () {
-    this.data = _.clone(this.original);
+    this.data = _.jsonClone(this.original);
   };
   /* -----------------------------------------------------------------------------
    * export
