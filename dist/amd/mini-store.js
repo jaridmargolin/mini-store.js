@@ -103,6 +103,27 @@ MiniStore.prototype.reset = function () {
 };
 
 
+/**
+ * Get value from store.
+ *
+ * @example
+ * store.get('key');
+ *
+ * @public
+ * 
+ * @param {string} name - String representation of key to return
+ * from store. If no key is passed, the entire data object will
+ * be returned.
+ * @returns {*} - queried value.
+ */
+MiniStore.prototype.get = function (name) {
+  return name
+    ? _.get(this.data, name)
+    : this.data;
+};
+
+
+
 /* -----------------------------------------------------------------------------
  * export
  * ---------------------------------------------------------------------------*/

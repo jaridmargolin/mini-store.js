@@ -113,6 +113,23 @@ describe('mini-store.js', function () {
 
   });
 
+
+  /* ---------------------------------------------------------------------------
+   * get
+   * -------------------------------------------------------------------------*/
+
+  describe('get', function () {
+
+    it('Should return key value', function () {
+      assert.equal(this.store.get('nested:key'), 'value');
+    });
+
+    it('Should return data object', function () {
+      assert.equal(this.store.get(), this.store.data);
+    });
+
+  });
+
 });
 
 
