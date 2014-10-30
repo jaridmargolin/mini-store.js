@@ -2,7 +2,7 @@
   "name": "mini-store.js",
   "description": "Lightweight class to store and manage data.",
   "author": "Jarid Margolin <jaridmargolin@gmail.com>",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "homepage": "https://github.com/jaridmargolin/mini-store.js",
   "repository": {
     "type": "git",
