@@ -1,0 +1,6 @@
+{
+  "paths": {
+    "assist": "assist.js/dist/common",
+    "stringspace": "stringspace.js/dist/common"
+  }
+}

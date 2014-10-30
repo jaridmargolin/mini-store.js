@@ -5,9 +5,9 @@
  */
 
 
-var isObject = require('assist/isObject');
-var jsonClone = require('assist/jsonClone');
-var Stringspace = require('stringspace/stringspace');
+var isObject = require('assist.js/dist/common/isObject');
+var jsonClone = require('assist.js/dist/common/jsonClone');
+var Stringspace = require('stringspace.js/dist/common/stringspace');
 
 
 /* -----------------------------------------------------------------------------

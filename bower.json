@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "dependencies": {
     "assist.js": "~0.3.0",
-    "stringspace.js": "~0.2.2"
+    "stringspace.js": "~0.2.4"
   },
   "ignore": [
     "**/.*",
