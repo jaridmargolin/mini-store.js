@@ -6,7 +6,7 @@
 
 
 define([
-  'assist/isObject',
+  'utl/isObject',
   'assist/jsonClone',
   'stringspace/stringspace'
 ], function (isObject, jsonClone, Stringspace) {

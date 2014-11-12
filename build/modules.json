@@ -1,6 +1,7 @@
 {
-  "assist"      : "/node_modules/assist.js/dist/amd",
-  "proclaim"    : "/node_modules/proclaim/lib/proclaim",
-  "sinon"       : "/node_modules/sinon/pkg/sinon",
-  "stringspace" : "/node_modules/stringspace.js/dist/amd"
+  "assist"        : "/node_modules/assist.js/dist/amd",
+  "proclaim"      : "/node_modules/proclaim/lib/proclaim",
+  "stringspace"   : "/node_modules/stringspace.js/dist/amd",
+  "utl"           : "/node_modules/utl.js/dist/amd",
+  "utl-companion" : "/node_modules/utl-companion.js/dist/amd"
 }

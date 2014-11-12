@@ -19,8 +19,8 @@
  * 
  * Copyright (c) 2014
  */
-var assistIsObject, assistJsonClone, assistIsArray, assistDeepMerge, stringspaceUtils, stringspaceStringspace, utils, miniStore;
-assistIsObject = function (value) {
+var utlIsObject, assistJsonClone, utlIsArray, utlCompanionDeepMerge, stringspaceUtils, stringspaceStringspace, utils, miniStore;
+utlIsObject = function (value) {
   return value === Object(value);
 };
 /*!
@@ -36,7 +36,7 @@ assistJsonClone = function (obj) {
  * 
  * Copyright (c) 2014
  */
-assistIsArray = function (value) {
+utlIsArray = function (value) {
   return Object.prototype.toString.call(value) === '[object Array]';
 };
 /*!
@@ -44,7 +44,7 @@ assistIsArray = function (value) {
  * 
  * Copyright (c) 2014
  */
-assistDeepMerge = function (isArray, isObject) {
+utlCompanionDeepMerge = function (isArray, isObject) {
   /* -----------------------------------------------------------------------------
    * deepMerge
    * ---------------------------------------------------------------------------*/
@@ -83,7 +83,7 @@ assistDeepMerge = function (isArray, isObject) {
    * deepMerge
    * ---------------------------------------------------------------------------*/
   return deepMerge;
-}(assistIsArray, assistIsObject);
+}(utlIsArray, utlIsObject);
 /*!
  * utils.js
  * 
@@ -97,7 +97,7 @@ stringspaceUtils = function (isObject, deepMerge) {
     isObject: isObject,
     deepMerge: deepMerge
   };
-}(assistIsObject, assistDeepMerge);
+}(utlIsObject, utlCompanionDeepMerge);
 /*!
  * stringspace.js
  * 
@@ -299,7 +299,7 @@ utils = function (isObject, jsonClone, Stringspace) {
    * export
    * ---------------------------------------------------------------------------*/
   return _;
-}(assistIsObject, assistJsonClone, stringspaceStringspace);
+}(utlIsObject, assistJsonClone, stringspaceStringspace);
 /*!
  * mini-store.js
  * 

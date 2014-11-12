@@ -16,13 +16,14 @@
   },
   "main": "dist/common/mini-store.js",
   "dependencies": {
-    "assist.js": "~0.3.0",
-    "stringspace.js": "~0.2.4"
+    "assist.js": "~0.4.0",
+    "stringspace.js": "~0.3.0",
+    "utl-companion.js": "~0.0.1",
+    "utl.js": "~0.1.0"
   },
   "devDependencies": {
-    "easy-build": "~0.0.6",
-    "proclaim": "~2.0.0",
-    "sinon": "~1.10.1"
+    "easy-build": "~0.1.0",
+    "proclaim": "~2.0.0"
   },
   "license": "MIT"
 }

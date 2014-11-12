@@ -5,7 +5,7 @@
  */
 
 
-var isObject = require('assist.js/dist/common/isObject');
+var isObject = require('utl.js/dist/common/isObject');
 var jsonClone = require('assist.js/dist/common/jsonClone');
 var Stringspace = require('stringspace.js/dist/common/stringspace');
 

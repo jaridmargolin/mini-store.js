@@ -6,9 +6,8 @@
 
 define([
   'proclaim',
-  'sinon',
   'mini-store/mini-store'
-], function (assert, sinon, MiniStore) {
+], function (assert, MiniStore) {
 
 
 /* -----------------------------------------------------------------------------
