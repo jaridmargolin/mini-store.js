@@ -7,7 +7,15 @@
 
 define([
   './utils',
-], function (_) {
+  'stringspace/stringspace'
+], function (_, Stringspace) {
+
+
+/* -----------------------------------------------------------------------------
+ * scope
+ * ---------------------------------------------------------------------------*/
+
+var stringspace = new Stringspace(':');
 
 
 /* -----------------------------------------------------------------------------
@@ -28,14 +36,15 @@ define([
  * @param {object|array} defaults - Base properties. Will remain even
  *   after calling reset. If an array of namespace keys is passed it
  *   will be converted to an object.
+ *
+ * @returns {object} - store instance.
  */
 var MiniStore = function (defaults) {
-  this.original = _.mix({}, defaults);
+  this.data = {};
+  this.addProperties(defaults);
 
-  // initialize by calling reset
-  this.reset();
+  this.original = _.jsonClone(this.data);
 };
-
 
 /**
  * Add properties to store data object. Will overwrite
@@ -43,39 +52,92 @@ var MiniStore = function (defaults) {
  * merge.
  *
  * @example
- * store.add([
- *   { 'nested:'key': { key: 'newvalue' }
- * ]);
+ * store.add({
+ *   'nested:key': { key: 'newvalue' }
+ * }, true);
+ *
+ * @example
+ * store.add('nested:key', 'value');
+ *   'nested:'key': { key: 'newvalue' }
+ * });
  *
  * @public
  *
- * @param {object|array} object - Object to merge with current data.
- * If an array of namespace keys is passed it will be converted
- * to an object.
+ * @param {object} properties - Will add each key as a property to store.
+ * @param {key} key - Name of key to add in store.
+ * @param {*} value - Used when key name passed. Sets value of key in store.
+ * @param {boolean} flat - If merge should be flat rather than deep (deep
+ *   by default).
+ *
+ * @returns {object} - store instance.
  */
 MiniStore.prototype.add = function (key, value, flat) {
-
   // Mixin with current data
   if (_.isObject(key)) {
     // Key actually is an object of key value pairs
     // and value is the flat flag (by default mix is deep).
-    _.mix(this.data, key, value);
+    this.addProperties(key, value);
 
   // Is a key and value
   } else {
-    _.set(this.data, key, value);
-    
+    this.addProperty(key, value, flat);
   }
 
-  // Allow chaining
+  // chaining yo!
   return this;
 };
 
+/**
+ * Loop over object keys and set on obj.
+ *
+ * @example
+ * store.addProperties({
+ *   'nested:key': 'value',
+ *   'notnested': 'value'
+ * });
+ *
+ * @public
+ *
+ * @param {object} obj - Properties to add to store.
+ * @param {boolean} flat - If merge should be flat rather than deep (deep
+ *   by default).
+ *
+ * @returns {object} - store instance.
+ */
+MiniStore.prototype.addProperties = function (obj, flat) {
+  for (var key in obj) {
+    this.addProperty(key, obj[key], flat);
+  }
+
+  // chaining yo!
+  return this;
+};
 
 /**
- * Remove values from store data object. If the key passed
- *   represents an object in the data object, all data within
- *   the object will be removed.
+ * Proxy stringspace.set().
+ *
+ * @example
+ * store.addProperty('nested:key', 'value');
+ *
+ * @public
+ *
+ * @param {string} key - Formatted string representing a key in the store.
+ * @param {*} val - Value of the specified key.
+ * @param {boolean} flat - If merge should be flat rather than deep (deep by
+ *  default).
+ *
+ * @returns {object} - store instance.
+ */
+MiniStore.prototype.addProperty = function (key, value, flat) {
+  stringspace.set(this.data, key, value, !flat);
+
+  // chaining yo!
+  return this;
+};
+
+/**
+ * Remove values from store data object. If the key passed represents an
+ * object in the data object, all data within the object will be removed.
  *
  * @example
  * store.remove('nested');
@@ -83,11 +145,69 @@ MiniStore.prototype.add = function (key, value, flat) {
  * @public
  *
  * @param {string} key - Namespaced key to delete value of.
+ *
+ * @returns {object} - store instance.
  */
 MiniStore.prototype.remove = function (key) {
-  _.remove(this.data, key);
+  this.removeProperty(key);
+
+  // chaining yo!
+  return this;
 };
 
+/**
+ * Proxy stringspace.remove().
+ *
+ * @example
+ * store.removeProperty('nested');
+ *
+ * @public
+ *
+ * @param {string} key - String representing the key to remove.
+ *
+ * @returns {object} - store instance.
+ */
+MiniStore.prototype.removeProperty = function (key) {
+  stringspace.remove(this.data, key);
+
+  // chaining yo!
+  return this;
+};
+
+/**
+ * Get value from store.
+ *
+ * @example
+ * store.get('key');
+ *
+ * @public
+ *
+ * @param {string} name - String representation of key to return from store.
+ * If no key is passed, the entire data object will be returned.
+ *
+ * @returns {*} - queried value.
+ */
+MiniStore.prototype.get = function (name) {
+  return name
+    ? this.getProperty(name)
+    : this.data;
+};
+
+/**
+ * Proxy stringspace.get().
+ *
+ * @example
+ * store.getProperty('nested:key');
+ *
+ * @public
+ *
+ * @param {string} key - Name representing key to retrieve.
+ *
+ * @returns {*} - queried value.
+ */
+MiniStore.prototype.getProperty = function (key) {
+  return stringspace.get(this.data, key);
+};
 
 /**
  * Reset data to original data specified at the time of
@@ -97,31 +217,15 @@ MiniStore.prototype.remove = function (key) {
  * store.reset();
  *
  * @public
+ *
+ * @returns {*} - queried value.
  */
 MiniStore.prototype.reset = function () {
   this.data = _.jsonClone(this.original);
+
+  // chaining yo!
+  return this;
 };
-
-
-/**
- * Get value from store.
- *
- * @example
- * store.get('key');
- *
- * @public
- * 
- * @param {string} name - String representation of key to return
- * from store. If no key is passed, the entire data object will
- * be returned.
- * @returns {*} - queried value.
- */
-MiniStore.prototype.get = function (name) {
-  return name
-    ? _.get(this.data, name)
-    : this.data;
-};
-
 
 
 /* -----------------------------------------------------------------------------
