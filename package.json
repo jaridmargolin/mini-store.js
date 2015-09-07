@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "easy-build": "~0.1.0",
-    "proclaim": "~2.0.0",
+    "proclaim": "~3.3.1",
     "sinon": "~1.16.1"
   },
   "license": "MIT"
