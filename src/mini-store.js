@@ -1,16 +1,22 @@
 /*!
  * mini-store.js
- * 
- * Copyright (c) 2014
  */
 
 
-define([
-  './utils',
-  'child/child',
-  'stringspace/stringspace',
-  'event-emitter/event-emitter'
-], function (_, child, Stringspace, EventEmitter) {
+define(function (require) {
+
+
+/* -----------------------------------------------------------------------------
+ * dependencies
+ * ---------------------------------------------------------------------------*/
+
+var child = require('child/child');
+var Stringspace = require('stringspace/stringspace');
+var EventEmitter = require('event-emitter/event-emitter');
+var isUndefined = require('utl/isUndefined');
+var isObject = require('utl/isObject');
+var isEmpty = require('utl/isEmpty');
+var extend = require('utl/extend');
 
 
 /* -----------------------------------------------------------------------------
@@ -82,7 +88,7 @@ return child(EventEmitter, {
    * @returns {object} - store instance.
    */
   set: function (key, value, options) {
-    var isObj = _.isObject(key);
+    var isObj = isObject(key);
 
     if (isObj) {
       options = value;
@@ -100,7 +106,7 @@ return child(EventEmitter, {
     }
 
     // emit events on change
-    if (!options.silent && !_.isEmpty(this.changed)) {
+    if (!options.silent && !isEmpty(this.changed)) {
       this.trigger('change', this, options);
 
       for (var propName in this.changed) {
@@ -137,7 +143,7 @@ return child(EventEmitter, {
 
     for (var key in obj) {
       this._setProperty(key, obj[key], options);
-      _.extend(changed, this.changed);
+      extend(changed, this.changed);
     }
 
     // changed should be equivalent to each property changed
@@ -203,7 +209,7 @@ return child(EventEmitter, {
 
     this._unsetProperty(key);
 
-    if (!options.silent && !_.isEmpty(this.changed)) {
+    if (!options.silent && !isEmpty(this.changed)) {
       this.trigger('change', this, options);
     }
 
@@ -230,7 +236,7 @@ return child(EventEmitter, {
     var propName = parts[0];
     var result = stringspace._get(this.attributes, key, true);
 
-    if (_.isUndefined(result.val)) {
+    if (isUndefined(result.val)) {
       return;
     }
 

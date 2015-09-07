@@ -1,13 +1,16 @@
 /*!
  * test/_amd.js
- * 
- * Copyright (c) 2014
  */
 
-define([
-  'proclaim',
-  'mini-store/mini-store'
-], function (assert, MiniStore) {
+define(function (require) {
+
+
+/* -----------------------------------------------------------------------------
+ * dependencies
+ * ---------------------------------------------------------------------------*/
+
+var assert = require('proclaim');
+var MiniStore = require('mini-store/mini-store');
 
 
 /* -----------------------------------------------------------------------------

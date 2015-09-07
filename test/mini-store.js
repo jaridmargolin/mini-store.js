@@ -1,14 +1,17 @@
 /*!
  * test/mini-store.js
- * 
- * Copyright (c) 2014
  */
 
-define([
-  'proclaim',
-  'sinon',
-  'mini-store'
-], function (assert, sinon, MiniStore) {
+define(function (require) {
+
+
+/* -----------------------------------------------------------------------------
+ * dependencies
+ * ---------------------------------------------------------------------------*/
+
+var assert = require('proclaim');
+var sinon = require('sinon');
+var MiniStore = require('mini-store');
 
 
 /* -----------------------------------------------------------------------------
