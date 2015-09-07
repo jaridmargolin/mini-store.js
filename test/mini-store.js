@@ -6,8 +6,9 @@
 
 define([
   'proclaim',
+  'sinon',
   'mini-store'
-], function (assert, MiniStore) {
+], function (assert, sinon, MiniStore) {
 
 
 /* -----------------------------------------------------------------------------
@@ -27,87 +28,145 @@ describe('mini-store.js', function () {
 
   describe('constructor', function () {
 
-    it('Should add original to instance.', function () {
-      assert.deepEqual(this.store.original, {
+    it('Should add passed attributes to instance.', function () {
+      assert.deepEqual(this.store.attributes, {
         'nested': { 'key': 'value' }
       });
-    });
-
-    it('Should add data to instance as clone of original.', function () {
-      assert.notEqual(this.store.data, this.store.original);
-      assert.deepEqual(this.store.data, this.store.original);
     });
 
   });
 
 
   /* ---------------------------------------------------------------------------
-   * add
+   * set
    * -------------------------------------------------------------------------*/
 
-  describe('add', function () {
+  describe('set', function () {
 
-    it('Should add key value.', function () {
-      this.store.add('nested:prop', 'value');
+    it('Should set key value.', function () {
+      this.store.set('nested:prop', 'value');
 
-      assert.deepEqual(this.store.data, {
+      assert.deepEqual(this.store.attributes, {
         'nested': { 'key': 'value', 'prop': 'value' }
       });
     });
 
-    it('Should add obj deep.', function () {
-      this.store.add({
+    it('Should set obj deep.', function () {
+      this.store.set({
         'nested': { 'prop': 'value' },
         'attr': 'value'
       });
 
-      assert.deepEqual(this.store.data, {
+      assert.deepEqual(this.store.attributes, {
         'nested': { 'key': 'value', 'prop': 'value' },
         'attr': 'value'
       });
     });
 
-    it('Should add obj flat.', function () {
-      this.store.add({
+    it('Should set obj flat.', function () {
+      this.store.set({
         'nested': { 'prop': 'value' },
         'attr': 'value'
-      }, true);
+      }, { flat: true });
 
-      assert.deepEqual(this.store.data, {
+      assert.deepEqual(this.store.attributes, {
         'nested': { 'prop': 'value' },
         'attr': 'value'
       });
     });
 
-  });
+    it('Should not trigger change events if property is set to same value.', function () {
+      var handler1 = sinon.spy();
+      var handler2 = sinon.spy();
 
+      this.store.on('change', handler1, this);
+      this.store.on('change:nested', handler2, this);
+      this.store.set('nested:key', 'value');
+      assert.isTrue(handler1.notCalled);
+      assert.isTrue(handler2.notCalled);
+    });
 
-  /* ---------------------------------------------------------------------------
-   * remove
-   * -------------------------------------------------------------------------*/
+    it('Should trigger change events on property value alteration.', function () {
+      var opts = {};
+      var expected = {
+        'nested': { 'key': 'newvalue' }
+      };
 
-  describe('remove', function () {
+      var handler1 = sinon.spy(function (store, options) {
+        assert.equal(store, this.store);
+        assert.deepEqual(options, opts);
+        assert.deepEqual(this.store.changed, expected);
+      });
 
-    it('Should remove key.', function () {
-      this.store.remove('nested');
+      var handler2 = sinon.spy(function (store, value, options) {
+        assert.equal(store, this.store);
+        assert.deepEqual(value, expected['nested']);
+        assert.deepEqual(options, opts);
+        assert.deepEqual(this.store.changed, expected);
+      });
 
-      assert.deepEqual(this.store.data, {});
+      this.store.on('change', handler1, this);
+      this.store.on('change:nested', handler2, this);
+      this.store.set('nested:key', 'newvalue', opts);
+      assert.isTrue(handler1.calledOnce);
+      assert.isTrue(handler2.calledOnce);
+    });
+
+    it('Should not trigger change events if silent option passed.', function () {
+      var handler1 = sinon.spy();
+      var handler2 = sinon.spy();
+
+      this.store.on('change', handler1, this);
+      this.store.on('change:nested', handler2, this);
+      this.store.set('nested:key', 'value', { silent: true });
+      assert.isTrue(handler1.notCalled);
+      assert.isTrue(handler2.notCalled);
     });
 
   });
 
 
   /* ---------------------------------------------------------------------------
-   * reset
+   * unset
    * -------------------------------------------------------------------------*/
 
-  describe('reset', function () {
+  describe('unset', function () {
 
-    it('Should reset to original.', function () {
-      this.store.remove('nested');
-      this.store.reset();
+    it('Should remove key.', function () {
+      this.store.unset('nested');
 
-      assert.deepEqual(this.store.data, this.store.original);
+      assert.deepEqual(this.store.attributes, {});
+    });
+
+    it('Should not trigger change event if property does not exist.', function () {
+      var handler = sinon.spy();
+
+      this.store.on('change', handler, this);
+      this.store.unset('nested:fake:again');
+      assert.isTrue(handler.notCalled);
+    });
+
+    it('Should trigger change event if key is removed.', function () {
+      var opts = {};
+      var expected = { 'nested': {} };
+
+      var handler = sinon.spy(function (store, options) {
+        assert.equal(store, this.store);
+        assert.deepEqual(options, opts);
+        assert.deepEqual(this.store.changed, expected);
+      });
+
+      this.store.on('change', handler, this);
+      this.store.unset('nested:key', opts);
+      assert.isTrue(handler.calledOnce);
+    });
+
+    it('Should not trigger change event if silent option passed.', function () {
+      var handler = sinon.spy();
+
+      this.store.on('change', handler, this);
+      this.store.unset('nested:key', { silent: true });
+      assert.isTrue(handler.notCalled);
     });
 
   });
@@ -124,7 +183,7 @@ describe('mini-store.js', function () {
     });
 
     it('Should return data object', function () {
-      assert.equal(this.store.get(), this.store.data);
+      assert.equal(this.store.get(), this.store.attributes);
     });
 
   });

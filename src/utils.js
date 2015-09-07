@@ -1,14 +1,14 @@
 /*!
  * utils.js
- *
- * Copyright (c) 2014
  */
 
 
 define([
+  'utl/isUndefined',
   'utl/isObject',
-  'assist/jsonClone'
-], function (isObject, jsonClone) {
+  'utl/isEmpty',
+  'utl/extend'
+], function (isUndefined, isObject, isEmpty, extend) {
 
 
 /* -----------------------------------------------------------------------------
@@ -16,8 +16,10 @@ define([
  * ---------------------------------------------------------------------------*/
 
 return {
+  isUndefined: isUndefined,
   isObject: isObject,
-  jsonClone: jsonClone
+  isEmpty: isEmpty,
+  extend: extend
 };
 
 
