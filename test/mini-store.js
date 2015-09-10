@@ -191,6 +191,30 @@ describe('mini-store.js', function () {
 
   });
 
+
+  /* ---------------------------------------------------------------------------
+   * triggerMethod
+   * -------------------------------------------------------------------------*/
+
+  describe('triggerMethod', function () {
+
+    it('Should trigger event', function (done) {
+      this.store.on('test', done);
+      this.store.triggerMethod('test');
+    });
+
+    it('Should optionally call method if exists.', function (done) {
+      this.store.onTest = function (param) {
+        assert.equal(param, 'param');
+        done();
+      };
+
+      this.store.triggerMethod('none', 'param');
+      this.store.triggerMethod('test', 'param');
+    });
+
+  });
+
 });
 
 

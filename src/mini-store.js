@@ -288,6 +288,31 @@ return child(EventEmitter, {
    */
   _getProperty: function (key) {
     return stringspace.get(this.attributes, key);
+  },
+
+  /**
+   * Trigger a method an optionally attempt to call method on class.
+   *
+   * @example
+   * api.triggerMethod('some:event');
+   * // will call onSomeEvent method if exists.
+   *
+   * @public
+   *
+   * @param {string} eventName - Name of event to trigger.
+   */
+  triggerMethod: function (eventName) {
+    var parts = eventName.split(':');
+    for (var i = 0, l = parts.length; i < l; i++) {
+      parts[i] = parts[i].charAt(0).toUpperCase() + parts[i].substring(1);
+    }
+
+    var method = this['on' + parts.join('')];
+    if (method) {
+      method.apply(this, Array.prototype.slice.call(arguments, 1));
+    }
+
+    this.trigger.apply(this, arguments);
   }
 
 });
