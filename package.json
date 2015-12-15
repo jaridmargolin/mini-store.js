@@ -1,0 +1,31 @@
+{
+  "name": "mini-store.js",
+  "description": "Lightweight class to store and manage data.",
+  "author": "Jarid Margolin <jaridmargolin@gmail.com>",
+  "version": "1.1.0",
+  "homepage": "https://github.com/jaridmargolin/mini-store.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaridmargolin/mini-store.js"
+  },
+  "bugs": {
+    "url": "https://github.com/jaridmargolin/mini-store.js/issues"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "main": "dist/common/mini-store.js",
+  "dependencies": {
+    "child.js": "~0.2.1",
+    "event-emitter.js": "~0.2.2",
+    "stringspace.js": "~0.3.0",
+    "utl-companion.js": "~0.0.1",
+    "utl.js": "~0.1.1"
+  },
+  "devDependencies": {
+    "easy-build": "~0.3.0",
+    "proclaim": "~3.3.1",
+    "sinon": "~1.16.1"
+  },
+  "license": "MIT"
+}

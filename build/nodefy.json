@@ -1,0 +1,9 @@
+{
+  "paths": {
+    "assist": "assist.js/dist/common",
+    "child": "child.js/dist/common",
+    "event-emitter": "event-emitter.js/dist/common",
+    "stringspace": "stringspace.js/dist/common",
+    "utl": "utl.js/dist/common"
+  }
+}

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>mini-store.js - Documentation</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/styles/github.min.css" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+  <body screen_capture_injected="true">
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <div class="sidebar"><div class="navbar navbar-inverse" role="navigation">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="https://github.com/jaridmargolin/mini-store.js">
+      mini-store.js
+      <small>(v1.1.0)</small>
+      <i class="fa fa-github"></i>
+    </a>
+      <iframe class="navbar-stars" src="https://ghbtns.com/github-btn.html?user=jaridmargolin&amp;repo=mini-store.js&amp;type=star&amp;count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+  </div>
+</div><ul class="nav collapse navbar-collapse nav-sidebar sidebar-navbar-collapse">
+<li>
+  <a class="btn btn-first btn-last btn-active" href="./index.html">Documentation</a>
+</li>
+
+
+
+<li>
+  <a href="#getting-started">Getting Started</a>
+<ul class="nav nav-sidebar-sub">
+<li>
+  <a href="#package-managers">Package Managers</a>
+</li></ul></li><li>
+  <a href="#ministore">
+  
+  MiniStore
+</a>
+<ul class="nav nav-sidebar-sub">
+<li>
+  <a href="#set">
+  
+  set
+</a>
+</li><li>
+  <a href="#unset">
+  
+  unset
+</a>
+</li><li>
+  <a href="#get">
+  
+  get
+</a>
+</li><li>
+  <a href="#triggermethod">
+  
+  triggerMethod
+</a>
+</li></ul></li><li>
+  <a href="#test">Test</a>
+</li><li>
+  <a href="#contributing">Contributing</a>
+</li><li>
+  <a href="#license">License</a>
+</li></ul></div>
+ 
+      <div class="main">
+        <div class="container-fluid container-content">
+          <h2><a id="getting-started" href="#getting-started" class="anchor" name="getting-started"><span class="header-link"></span></a>Getting Started</h2><p><a href="https://travis-ci.org/jaridmargolin/mini-store.js.js"><img src="https://travis-ci.org/jaridmargolin/mini-store.js.png" alt="Build Status"></a></p>
+<h3><a id="package-managers" href="#package-managers" class="anchor" name="package-managers"><span class="header-link"></span></a>Package Managers</h3><p><strong>npm</strong>: <code>npm install mini-store.js</code></p>
+<p><strong>bower</strong>: <code>bower install mini-store.js</code></p>
+
+          <div class="documentation row">
+  <div class="container-fluid">
+    <div class="row"><div class="col-lg-6 col-desc"><h2>
+  <a id="ministore" href="#ministore" class="anchor" name="ministore"><span class="header-link"></span></a>
+  MiniStore
+</h2>
+<p>Lightweight class to store and manage data.</p><div class="label label-info radius ctx-type">Class</div> <span>MiniStore(defaults)</span>  <h4>Parameters</h4>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width:15%">Name</th>
+        <th style="width:15%">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>defaults</td>
+        <td>object,array</td>
+        <td>Base properties to set on object at
+  instantiation.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="col-lg-6 col-usage">  <pre><code>var store = new MiniStore({
+  nested: { key: &#x27;value&#x27; }
+});</code></pre>
+</div></div>
+
+    <div class="row"><div class="col-lg-6 col-desc"><h3>
+  <a id="set" href="#set" class="anchor" name="set"><span class="header-link"></span></a>
+  set
+</h3>
+<p>Add properties to on attributes object. Will overwrite if value
+  currently exists for key. Works as a deep merge.</p><div class="label label-info radius ctx-type">Function</div> <span>set(properties, key, value, options)</span>  <h4>Parameters</h4>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width:15%">Name</th>
+        <th style="width:15%">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>properties</td>
+        <td>object</td>
+        <td>Will set each key as a property to store.</td>
+      </tr>
+      <tr>
+        <td>key</td>
+        <td>key</td>
+        <td>Name of key to set in store.</td>
+      </tr>
+      <tr>
+        <td>value</td>
+        <td>*</td>
+        <td>Used when key name passed. Sets value of key in store.</td>
+      </tr>
+      <tr>
+        <td>options</td>
+        <td>object</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5>options</h5>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width:15%">Name</th>
+        <th style="width:15%">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>flat</td>
+        <td>boolean</td>
+        <td>If merge should be flat rather than deep
+  (deep by default).</td>
+      </tr>
+      <tr>
+        <td>silent</td>
+        <td>boolean</td>
+        <td>If we should silence the change event
+  that fires if a property is altered.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h4>Returns</h4>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width:20%">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>object</td>
+        <td>- store instance.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="col-lg-6 col-usage">  <pre><code>store.set({
+  &#x27;nested:key&#x27;: { key: &#x27;newvalue&#x27; }
+}, true);</code></pre>
+  <pre><code>store.set(&#x27;nested:key&#x27;, &#x27;value&#x27;);
+  &#x27;nested:&#x27;key&#x27;: { key: &#x27;newvalue&#x27; }
+});</code></pre>
+</div></div>
+    <div class="row"><div class="col-lg-6 col-desc"><h3>
+  <a id="unset" href="#unset" class="anchor" name="unset"><span class="header-link"></span></a>
+  unset
+</h3>
+<p>Remove values from attributes object. If the key passed represents an
+  object in the attributes object, all data within the object will be
+  removed.</p><div class="label label-info radius ctx-type">Function</div> <span>unset(key)</span>  <h4>Parameters</h4>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width:15%">Name</th>
+        <th style="width:15%">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>key</td>
+        <td>string</td>
+        <td>Namespaced key to delete value of.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h4>Returns</h4>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width:20%">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>object</td>
+        <td>- store instance.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="col-lg-6 col-usage">  <pre><code>store.unset(&#x27;nested&#x27;);</code></pre>
+</div></div>
+    <div class="row"><div class="col-lg-6 col-desc"><h3>
+  <a id="get" href="#get" class="anchor" name="get"><span class="header-link"></span></a>
+  get
+</h3>
+<p>Get value from store.</p><div class="label label-info radius ctx-type">Function</div> <span>get(name)</span>  <h4>Parameters</h4>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width:15%">Name</th>
+        <th style="width:15%">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>name</td>
+        <td>string</td>
+        <td>String representation of key to return from store.
+  If no key is passed, the entire attributes object will be returned.</td>
+      </tr>
+    </tbody>
+  </table>
+  <h4>Returns</h4>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width:20%">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>*</td>
+        <td>- queried value.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="col-lg-6 col-usage">  <pre><code>var val = store.get(&#x27;key&#x27;);</code></pre>
+</div></div>
+    <div class="row"><div class="col-lg-6 col-desc"><h3>
+  <a id="triggermethod" href="#triggermethod" class="anchor" name="triggermethod"><span class="header-link"></span></a>
+  triggerMethod
+</h3>
+<p>Trigger an event and/or a corresponding method name. If method exists
+  it will be invoked first.</p><div class="label label-info radius ctx-type">Function</div> <span>triggerMethod(eventName)</span>  <h4>Parameters</h4>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th style="width:15%">Name</th>
+        <th style="width:15%">Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>eventName</td>
+        <td>string</td>
+        <td>Name of event to trigger.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="col-lg-6 col-usage">  <pre><code>api.triggerMethod(&#x27;some:event&#x27;);
+// will attempt to call onSomeEvent</code></pre>
+</div></div>
+
+</div>
+</div>
+          <h2><a id="test" href="#test" class="anchor" name="test"><span class="header-link"></span></a>Test</h2><p>All dependencies must be installed (<code>npm install</code>)</p>
+<p><strong>Run</strong>: <code>npm test</code></p>
+
+          <h2><a id="contributing" href="#contributing" class="anchor" name="contributing"><span class="header-link"></span></a>Contributing</h2><p>In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using <a href="http://gruntjs.com/">Grunt</a>.</p>
+<p><em>Also, please don&#39;t edit files in the &quot;dist&quot; subdirectory as they are generated via Grunt. You&#39;ll find source code in the &quot;lib&quot; subdirectory!</em></p>
+
+          <h2><a id="license" href="#license" class="anchor" name="license"><span class="header-link"></span></a>License</h2><p>The MIT License (MIT) Copyright (c) Jarid Margolin &lt;jaridmargolin@gmail.com&gt;</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/highlight.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.8.0/languages/javascript.min.js"></script>
+  <script src="assets/js/easy-docs.js"></script>
+
+  </body>
+</html>
