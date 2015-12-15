@@ -107,10 +107,10 @@ return child(EventEmitter, {
 
     // emit events on change
     if (!options.silent && !isEmpty(this.changed)) {
-      this.trigger('change', this, options);
+      this.triggerMethod('change', this, options);
 
       for (var propName in this.changed) {
-        this.trigger('change:' + propName, this, this.changed[propName], options);
+        this.triggerMethod('change:' + propName, this, this.changed[propName], options);
       }
     }
 
@@ -210,7 +210,7 @@ return child(EventEmitter, {
     this._unsetProperty(key);
 
     if (!options.silent && !isEmpty(this.changed)) {
-      this.trigger('change', this, options);
+      this.triggerMethod('change', this, options);
     }
 
     // chaining yo!
