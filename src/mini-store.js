@@ -13,6 +13,7 @@ define(function (require) {
 var child = require('child/child');
 var Stringspace = require('stringspace/stringspace');
 var EventEmitter = require('event-emitter/event-emitter');
+var capitalize = require('assist/capitalize');
 var isUndefined = require('utl/isUndefined');
 var isObject = require('utl/isObject');
 var isEmpty = require('utl/isEmpty');
@@ -304,17 +305,34 @@ return child(EventEmitter, {
    * @param {string} eventName - Name of event to trigger.
    */
   triggerMethod: function (eventName) {
-    var parts = eventName.split(':');
-    for (var i = 0, l = parts.length; i < l; i++) {
-      parts[i] = parts[i].charAt(0).toUpperCase() + parts[i].substring(1);
-    }
-
-    var method = this['on' + parts.join('')];
+    var method = this[this.triggerMethodName(eventName)];
     if (method) {
       method.apply(this, Array.prototype.slice.call(arguments, 1));
     }
 
     this.trigger.apply(this, arguments);
+  },
+
+  /**
+   * @public
+   * @memberof MiniStore
+   *
+   * @desc Returns the name of the method to be triggered in `triggerMethod`
+   *
+   * @example
+   * api.triggerMethodName('some:event');
+   * // returns onSomeEvent
+   *
+   * @param {string} eventName - Name of event to transform.
+   * @returns {string} Name of method to call.
+   */
+  triggerMethodName: function (eventName) {
+    var parts = eventName.split(':');
+    for (var i = 0, l = parts.length; i < l; i++) {
+      parts[i] = capitalize(parts[i]);
+    }
+
+    return 'on' + parts.join('');
   }
 
 });

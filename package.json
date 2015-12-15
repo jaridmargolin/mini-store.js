@@ -16,6 +16,7 @@
   },
   "main": "dist/common/mini-store.js",
   "dependencies": {
+    "assist.js": "~0.4.2",
     "child.js": "~0.2.1",
     "event-emitter.js": "~0.2.2",
     "stringspace.js": "~0.3.0",

@@ -193,6 +193,20 @@ describe('mini-store.js', function () {
 
 
   /* ---------------------------------------------------------------------------
+   * triggerMethodName
+   * -------------------------------------------------------------------------*/
+
+  describe('triggerMethodName', function () {
+
+    it('Should return transformed string', function () {
+      assert.equal(this.store.triggerMethodName('event'), 'onEvent');
+      assert.equal(this.store.triggerMethodName('event:namespace'), 'onEventNamespace');
+    });
+
+  });
+
+
+  /* ---------------------------------------------------------------------------
    * triggerMethod
    * -------------------------------------------------------------------------*/
 

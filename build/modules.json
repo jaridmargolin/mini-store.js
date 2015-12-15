@@ -1,4 +1,5 @@
 {
+  "assist"        : "/node_modules/assist.js/dist/amd",
   "child"         : "/node_modules/child.js/dist/amd",
   "event-emitter" : "/node_modules/event-emitter.js/dist/amd",
   "proclaim"      : "/node_modules/proclaim/lib/proclaim",
