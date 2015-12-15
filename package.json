@@ -23,7 +23,7 @@
     "utl.js": "~0.1.1"
   },
   "devDependencies": {
-    "easy-build": "~0.1.0",
+    "easy-build": "~0.3.0",
     "proclaim": "~3.3.1",
     "sinon": "~1.16.1"
   },

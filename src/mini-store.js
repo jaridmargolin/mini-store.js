@@ -33,20 +33,20 @@ var stringspace = new Stringspace(':');
 return child(EventEmitter, {
 
   /**
-   * Lightweight class to store and manage data.
+   * @global
+   * @public
+   * @constructor
+   *
+   * @name MiniStore
+   * @desc Lightweight class to store and manage data.
    *
    * @example
    * var store = new MiniStore({
    *   nested: { key: 'value' }
    * });
    *
-   * @public
-   * @constructor
-   *
-   * @param {object|array} defaults - Base properties. Will remain even
-   *   after calling reset. If an array of namespace keys is passed it
-   *   will be converted to an object.
-   *
+   * @param {object|array} defaults - Base properties to set on object at
+   *   instantiation.
    * @returns {object} - store instance.
    */
   constructor: function () {
@@ -61,8 +61,11 @@ return child(EventEmitter, {
   },
 
   /**
-   * Add properties to on attributes object. Will overwrite if value currently
-   * exists for key. Works as a deep merge.
+   * @public
+   * @memberof MiniStore
+   *
+   * @desc Add properties to on attributes object. Will overwrite if value
+   *   currently exists for key. Works as a deep merge.
    *
    * @example
    * store.set({
@@ -74,8 +77,6 @@ return child(EventEmitter, {
    *   'nested:'key': { key: 'newvalue' }
    * });
    *
-   * @public
-   *
    * @param {object} properties - Will set each key as a property to store.
    * @param {key} key - Name of key to set in store.
    * @param {*} value - Used when key name passed. Sets value of key in store.
@@ -84,7 +85,6 @@ return child(EventEmitter, {
    *   (deep by default).
    * @param {boolean} options.silent - If we should silence the change event
    *   that fires if a property is altered.
-   *
    * @returns {object} - store instance.
    */
   set: function (key, value, options) {
@@ -118,8 +118,11 @@ return child(EventEmitter, {
     return this;
   },
 
-  /**
-   * Loop over object keys and set on obj.
+  /*
+   * @private
+   * @memberof MiniStore
+   *
+   * @desc Loop over object keys and set on obj.
    *
    * @example
    * store._setProperties({
@@ -127,15 +130,12 @@ return child(EventEmitter, {
    *   'notnested': 'value'
    * });
    *
-   * @private
-   *
    * @param {object} obj - Properties to set to store.
    * @param {object} options
    * @param {boolean} options.flat - If merge should be flat rather than deep
    *   (deep by default).
    * @param {boolean} options.silent - If we should silence the change event
    *   that fires if a property is altered.
-   *
    * @returns {object} - store instance.
    */
   _setProperties: function (obj, options) {
@@ -150,13 +150,14 @@ return child(EventEmitter, {
     this.changed = changed;
   },
 
-  /**
-   * Set property on attributes.
+  /*
+   * @private
+   * @memberof MiniStore
+   *
+   * @desc Set property on attributes.
    *
    * @example
    * store._setProperty('nested:key', 'value');
-   *
-   * @private
    *
    * @param {string} key - Formatted string representing a key in the store.
    * @param {*} val - Value of the specified key.
@@ -165,7 +166,6 @@ return child(EventEmitter, {
    *   (deep by default).
    * @param {boolean} options.silent - If we should silence the change event
    *   that fires if a property is altered.
-   *
    * @returns {object} - store instance.
    */
   _setProperty: function (key, value, options) {
@@ -190,17 +190,17 @@ return child(EventEmitter, {
   },
 
   /**
-   * Remove values from attributes object. If the key passed represents an
-   * object in the attributes object, all data within the object will be
-   * removed.
+   * @public
+   * @memberof MiniStore
+   *
+   * @desc Remove values from attributes object. If the key passed represents an
+   *   object in the attributes object, all data within the object will be
+   *   removed.
    *
    * @example
    * store.unset('nested');
    *
-   * @public
-   *
    * @param {string} key - Namespaced key to delete value of.
-   *
    * @returns {object} - store instance.
    */
   unset: function (key, options) {
@@ -217,16 +217,16 @@ return child(EventEmitter, {
     return this;
   },
 
-  /**
-   * Proxy stringspace.remove().
+  /*
+   * @private
+   * @memberof MiniStore
+   *
+   * @desc Proxy stringspace.remove().
    *
    * @example
    * store._unsetProperty('nested');
    *
-   * @public
-   *
    * @param {string} key - String representing the key to remove.
-   *
    * @returns {object} - store instance.
    */
   _unsetProperty: function (key) {
@@ -256,16 +256,16 @@ return child(EventEmitter, {
   },
 
   /**
-   * Get value from store.
+   * @public
+   * @memberof MiniStore
+   *
+   * @desc Get value from store.
    *
    * @example
-   * store.get('key');
-   *
-   * @public
+   * var val = store.get('key');
    *
    * @param {string} name - String representation of key to return from store.
-   * If no key is passed, the entire attributes object will be returned.
-   *
+   *   If no key is passed, the entire attributes object will be returned.
    * @returns {*} - queried value.
    */
   get: function (name) {
@@ -274,16 +274,16 @@ return child(EventEmitter, {
       : this.attributes;
   },
 
-  /**
-   * Proxy stringspace.get().
+  /*
+   * @private
+   * @memberof MiniStore
+   *
+   * @desc Proxy stringspace.get().
    *
    * @example
    * store._getProperty('nested:key');
    *
-   * @private
-   *
    * @param {string} key - Name representing key to retrieve.
-   *
    * @returns {*} - queried value.
    */
   _getProperty: function (key) {
@@ -291,13 +291,15 @@ return child(EventEmitter, {
   },
 
   /**
-   * Trigger a method an optionally attempt to call method on class.
+   * @public
+   * @memberof MiniStore
+   *
+   * @desc Trigger an event and/or a corresponding method name. If method exists
+   *   it will be invoked first.
    *
    * @example
    * api.triggerMethod('some:event');
-   * // will call onSomeEvent method if exists.
-   *
-   * @public
+   * // will attempt to call onSomeEvent
    *
    * @param {string} eventName - Name of event to trigger.
    */
