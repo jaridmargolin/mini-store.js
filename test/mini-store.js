@@ -115,6 +115,16 @@ describe('mini-store.js', function () {
       assert.isTrue(handler2.calledOnce);
     });
 
+
+    it('Should trigger property change event before operation change event.', function () {
+      var handler1 = function () { assert.isTrue(handler2.calledOnce); };
+      var handler2 = sinon.spy();
+
+      this.store.on('change', handler1, this);
+      this.store.on('change:nested', handler2, this);
+      this.store.set('nested:key', 'value');
+    });
+
     it('Should not trigger change events if silent option passed.', function () {
       var handler1 = sinon.spy();
       var handler2 = sinon.spy();
